@@ -1,0 +1,76 @@
+#include "Vector.h"
+#include <iostream>
+
+using namespace std; 
+
+class VectorCalculator
+{
+    public: 
+    Vector<int>
+    sumaVectores(const Vector<int> &v1, const Vector<int> &v2)
+    {Vector<int>resultado;
+    int suma=0;
+    int siz=v1.getSize();
+    for(int i=0; i< siz; i++)
+    {
+        int suma= v1.at(i) + v2.at(i);
+        resultado.pushBack(suma);
+    }
+    return resultado; 
+    }
+
+    Vector<int>
+    restaVectores(const Vector<int> &v1, const Vector<int> &v2)
+    {
+        Vector <int> result; 
+        int resta=0;
+        int siz=v1.getSize();
+        for(int i=0; i<siz; i++)
+        {
+            int resta= v1.at(i)-v2.at(i);
+            result.pushBack(resta);
+        }
+        return result; 
+    }
+
+    Vector<int>
+    multiplicacionVectores(const Vector<int> &v1, const Vector<int> &v2 )
+    {
+        Vector <int> r;
+        int mult=0;
+        int siz= v1.getSize();
+        for (int i=0; i<siz; i++)
+        {
+            int mult= v1.at(i)*v2.at(i);
+            r.pushBack(mult);
+        } 
+        return r; 
+
+    }
+};
+
+int main()
+{
+    Vector<int> v1,v2;
+
+    v1.pushBack(2);
+    v1.pushBack(1);
+    v1.pushBack(2);
+
+
+    v1.pushBack(3);
+    v1.pushBack(1);
+    v1.pushBack(3);
+
+    VectorCalculator calculador; 
+    Vector <int> resultado=
+    calculador.sumaVectores(v1,v2);
+    Vector <int> result=
+    calculador.restaVectores(v1,v2);
+    Vector<int>r=
+    calculador.multiplicacionVectores(v1,v2);
+
+      cout << "Vector resultante de la suma:  " << endl;resultado.print();
+      cout << "Vector resultante de la resta:  " << endl;result.print();
+      cout << "Vector resultante de la multiplicación:  " << endl;r.print();
+}
