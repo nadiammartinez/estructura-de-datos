@@ -1,0 +1,99 @@
+#include "Vector.h"
+#include <iostream>
+#include <string>
+
+using namespace std;
+
+class Producto {
+public:
+    int id;
+    string nombre;
+    double precio;
+    int stock;
+
+    Producto(int _id = 0, string _nombre = "", double _precio = 0, int _stock = 0)
+        : id(_id), nombre(_nombre), precio(_precio), stock(_stock) {}
+
+    void print() const {
+        cout << "ID: " << id << ", Nombre: " << nombre << ", Precio: " << precio << " Bs, Cantidad en stock: " << stock << endl;
+    }
+};
+
+class Inventario {
+private:
+    Vector<Producto> productos;
+
+public:
+    void agregarProducto(int id, string nombre, double precio, int stock) {
+        productos.pushBack(Producto(id, nombre, precio, stock));
+    }
+
+    void eliminarProducto(int id) {
+        Vector<Producto> temp;
+        for (int i = 0; i < productos.getSize(); i++) {
+            if (productos.at(i).id != id) {
+                temp.pushBack(productos.at(i));
+            }
+        }
+        productos = temp;
+    }
+
+    void buscarProducto(string nombre) {
+        bool encontrado = false;
+        for (int i = 0; i < productos.getSize(); i++) {
+            if (productos.at(i).nombre == nombre) {
+                productos.at(i).print();
+                encontrado = true;
+            }
+        }
+        if (!encontrado) {
+            cout << "Producto no encontrado." << endl;
+        }
+    }
+
+    void ordenarPorPrecio() {
+        for (int i = 0; i < productos.getSize() - 1; i++) {
+            for (int j = 0; j < productos.getSize() - i - 1; j++) {
+                if (productos.at(j).precio > productos.at(j + 1).precio) {
+                    Producto temp = productos.at(j);
+                    productos.set(j, productos.at(j + 1));
+                    productos.set(j + 1, temp);
+                }
+            }
+        }
+    }
+
+    void mostrarInventario() {
+        for (int i = 0; i < productos.getSize(); i++) {
+            productos.at(i).print();
+        }
+    }
+};
+
+int main() {
+    Inventario inventario;
+
+    inventario.agregarProducto(1, "Rimel", 110, 45);
+    inventario.agregarProducto(2, "Corrector", 85, 30);
+    inventario.agregarProducto(3, "Rubor", 55, 46);
+
+    cout << "Inventario inicial:" << endl;
+    inventario.mostrarInventario();
+
+    inventario.agregarProducto(4, "Labial", 75, 20);
+    cout << "\nInventario despues de agregar un nuevo producto:" << endl;
+    inventario.mostrarInventario();
+
+    inventario.eliminarProducto(2);
+    cout << "\nInventario despues de eliminar Corrector:" << endl;
+    inventario.mostrarInventario();
+
+    cout << "\nBuscando el producto 'Rubor':" << endl;
+    inventario.buscarProducto("Rubor");
+
+    inventario.ordenarPorPrecio();
+    cout << "\nInventario ordenado por precio:" << endl;
+    inventario.mostrarInventario();
+
+    return 0;
+}
