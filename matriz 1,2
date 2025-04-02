@@ -1,0 +1,57 @@
+#include "Matriz.h" 
+#include <iostream>
+using namespace std;
+
+
+bool esSimetrica(const Matrix<int, 3, 3> &mat) {
+    
+    for (int i = 0; i < mat.numRows(); i++) {
+        for (int j = 0; j < mat.numCols(); j++) {
+            
+            if (mat.at(i, j) != mat.at(j, i)) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+
+int sumaPares(const Matrix<int, 3, 3> &mat) {
+    int suma = 0;
+    for (int i = 0; i < mat.numRows(); i++) {
+        for (int j = 0; j < mat.numCols(); j++) {
+            if (mat.at(i, j) % 2 == 0) {
+                suma += mat.at(i, j);
+            }
+        }
+    }
+    return suma;
+}
+
+int main() {
+    
+    Matrix<int, 3, 3> m;
+
+    int valores[3][3] = {
+        {1, 2, 3},
+        {2, 4, 5},
+        {3, 5, 6}
+    };
+
+    for (int i = 0; i < m.numRows(); i++) {
+        for (int j = 0; j < m.numCols(); j++) {
+            m.set(i, j, valores[i][j]);
+        }
+    }
+
+    cout << "Matriz:\n";
+    m.print();
+
+    cout << "¿Es simétrica respecto a la diagonal principal? "
+         << (esSimetrica(m) ? "Sí" : "No") << endl;
+
+    cout << "Suma de números pares en la matriz: " << sumaPares(m) << endl;
+
+    return 0;
+}
