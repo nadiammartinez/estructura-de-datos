@@ -1,0 +1,84 @@
+#include <iostream>
+#include "Vector.h" 
+using namespace std;
+
+class Estudiante {
+private:
+    int registro;
+    string nombre;
+    Vector<double> calificaciones;
+public:
+    
+    Estudiante(int reg, string nom, Vector<double> calif)
+        : registro(reg), nombre(nom), calificaciones(calif) {}
+
+    
+    double obtenerPromedio() const {
+        if (calificaciones.getSize() == 0) return 0.0;
+        double suma = 0;
+        for (int i = 0; i < calificaciones.getSize(); i++) {
+            suma += calificaciones.at(i);
+        }
+        return suma / calificaciones.getSize();
+    }
+
+    
+    string getNombre() const { return nombre; }
+
+    
+    int getRegistro() const { return registro; }
+};
+
+class GestionAcademica {
+private:
+    Vector<Estudiante> estudiantes; 
+
+public:
+   
+    void agregarEstudiante(const Estudiante &est) {
+        estudiantes.pushBack(est);
+    }
+
+    
+    void mostrarPromedios() const {
+        for (int i = 0; i < estudiantes.getSize(); i++) {
+            const Estudiante &est = estudiantes.at(i);
+            cout << "Estudiante: " << est.getNombre()
+                 << " (Registro: " << est.getRegistro() << ") - "
+                 << "Promedio: " << est.obtenerPromedio() << endl;
+        }
+    }
+
+   
+    double obtenerPromedioGeneral() const {
+        if (estudiantes.getSize() == 0) return 0.0;
+
+        double sumaTotal = 0;
+        for (int i = 0; i < estudiantes.getSize(); i++) {
+            sumaTotal += estudiantes.at(i).obtenerPromedio();
+        }
+        return sumaTotal / estudiantes.getSize();
+    }
+};
+
+int main() {
+    GestionAcademica gestion;
+
+    
+    Vector<double> notasAna, notasLuis, notasSofia;
+    notasAna.pushBack(90); notasAna.pushBack(85); notasAna.pushBack(88);
+    notasLuis.pushBack(75); notasLuis.pushBack(80); notasLuis.pushBack(70);
+    notasSofia.pushBack(95); notasSofia.pushBack(92); notasSofia.pushBack(96);
+ 
+    gestion.agregarEstudiante(Estudiante(1, "Ana", notasAna));
+    gestion.agregarEstudiante(Estudiante(2, "Luis", notasLuis));
+    gestion.agregarEstudiante(Estudiante(3, "Sofia", notasSofia));
+
+    
+    gestion.mostrarPromedios();
+
+    
+    cout << "Promedio general del grupo: " << gestion.obtenerPromedioGeneral() << endl;
+
+    return 0;
+}
