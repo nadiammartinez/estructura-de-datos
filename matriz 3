@@ -1,0 +1,60 @@
+#include <iostream>
+#include <stdexcept>
+#include "Matriz.h"
+
+using namespace std;
+
+template <int TAMANO>
+class MathMatrix : public Matrix<int, TAMANO, TAMANO>
+{
+  public:
+    bool esSimetrica() const
+    {
+        for (int i = 0; i < TAMANO; i++)
+        {
+            for (int j = 0; j < TAMANO; j++)
+            {
+                if (this->m[i][j] != this->m[j][i])
+                {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+};
+
+int main()
+{
+    MathMatrix<3> matrizSimetrica;
+    int valoresSimetricos[3][3] = {{1, 2, 3}, {2, 5, 6}, {3, 6, 9}};
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            matrizSimetrica.set(i, j, valoresSimetricos[i][j]);
+        }
+    }
+
+    MathMatrix<3> matrizNoSimetrica;
+    int valoresNoSimetricos[3][3] = {{1, 4, 7}, {2, 5, 8}, {3, 6, 9}};
+
+    for (int i = 0; i < 3; i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            matrizNoSimetrica.set(i, j, valoresNoSimetricos[i][j]);
+        }
+    }
+
+    cout << "Matriz Simétrica:" << endl;
+    matrizSimetrica.print();
+    cout << (matrizSimetrica.esSimetrica() ? "Es simétrica" : "No es simétrica") << endl;
+
+    cout << "\nMatriz No Simétrica:" << endl;
+    matrizNoSimetrica.print();
+    cout << (matrizNoSimetrica.esSimetrica() ? "Es simétrica" : "No es simétrica") << endl;
+
+    return 0;
+}
