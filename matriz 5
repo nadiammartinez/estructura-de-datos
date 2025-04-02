@@ -1,0 +1,97 @@
+#include <iostream>
+#include <stdexcept>
+#include "Matriz.h"
+using namespace std;
+
+template <int FILAS, int COLUMNAS>
+class MatrixCalculator : public Matrix<int, FILAS, COLUMNAS>
+{
+  public:
+    Matrix<int, FILAS, COLUMNAS> suma(const Matrix<int, FILAS, COLUMNAS>& otraMatriz) const
+    {
+        Matrix<int, FILAS, COLUMNAS> resultado;
+        for (int i = 0; i < FILAS; i++)
+        {
+            for (int j = 0; j < COLUMNAS; j++)
+            {
+                resultado.set(i, j, this->at(i, j) + otraMatriz.at(i, j));
+            }
+        }
+        return resultado;
+    }
+
+    Matrix<int, FILAS, COLUMNAS> resta(const Matrix<int, FILAS, COLUMNAS>& otraMatriz) const
+    {
+        Matrix<int, FILAS, COLUMNAS> resultado;
+        for (int i = 0; i < FILAS; i++)
+        {
+            for (int j = 0; j < COLUMNAS; j++)
+            {
+                resultado.set(i, j, this->at(i, j) - otraMatriz.at(i, j));
+            }
+        }
+        return resultado;
+    }
+
+    Matrix<int, FILAS, COLUMNAS> multiplicacion(const Matrix<int, FILAS, COLUMNAS>& otraMatriz) const
+    {
+        Matrix<int, FILAS, COLUMNAS> resultado;
+        for (int i = 0; i < FILAS; i++)
+        {
+            for (int j = 0; j < COLUMNAS; j++)
+            {
+                int suma = 0;
+                for (int k = 0; k < COLUMNAS; k++)
+                {
+                    suma += this->at(i, k) * otraMatriz.at(k, j);
+                }
+                resultado.set(i, j, suma);
+            }
+        }
+        return resultado;
+    }
+};
+
+int main()
+{
+    MatrixCalculator<3, 3> matriz1;
+    MatrixCalculator<3, 3> matriz2;
+
+    int valor = 1;
+    for (int i = 0; i < matriz1.numRows(); i++)
+    {
+        for (int j = 0; j < matriz1.numCols(); j++)
+        {
+            matriz1.set(i, j, valor++);
+        }
+    }
+
+    valor = 10;
+    for (int i = 0; i < matriz2.numRows(); i++)
+    {
+        for (int j = 0; j < matriz2.numCols(); j++)
+        {
+            matriz2.set(i, j, valor--);
+        }
+    }
+
+    cout << "Matriz 1:" << endl;
+    matriz1.print();
+
+    cout << "Matriz 2:" << endl;
+    matriz2.print();
+
+    Matrix<int, 3, 3> sumaMatriz = matriz1.suma(matriz2);
+    cout << "Suma de las matrices:" << endl;
+    sumaMatriz.print();
+
+    Matrix<int, 3, 3> restaMatriz = matriz1.resta(matriz2);
+    cout << "Resta de las matrices:" << endl;
+    restaMatriz.print();
+
+    Matrix<int, 3, 3> multMatriz = matriz1.multiplicacion(matriz2);
+    cout << "Multiplicación de las matrices:" << endl;
+    multMatriz.print();
+
+    return 0;
+}
