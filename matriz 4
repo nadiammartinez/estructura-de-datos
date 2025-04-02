@@ -1,0 +1,79 @@
+#include <iostream>
+#include <stdexcept>
+#include "Matriz.h"
+#include <vector>
+using namespace std;
+
+template <int FILAS, int COLUMNAS>
+class MathMatrix : public Matrix<int, FILAS, COLUMNAS>
+{
+  public:
+    int encontrarMaximo() const
+    {
+        int maximo = this->at(0, 0);
+        for (int i = 0; i < FILAS; i++)
+        {
+            for (int j = 0; j < COLUMNAS; j++)
+            {
+                if (this->at(i, j) > maximo)
+                {
+                    maximo = this->at(i, j);
+                }
+            }
+        }
+        return maximo;
+    }
+
+    int encontrarMinimo() const
+    {
+        int minimo = this->at(0, 0);
+        for (int i = 0; i < FILAS; i++)
+        {
+            for (int j = 0; j < COLUMNAS; j++)
+            {
+                if (this->at(i, j) < minimo)
+                {
+                    minimo = this->at(i, j);
+                }
+            }
+        }
+        return minimo;
+    }
+
+    double calcularPromedio() const
+    {
+        int suma = 0;
+        int totalElementos = FILAS * COLUMNAS;
+        for (int i = 0; i < FILAS; i++)
+        {
+            for (int j = 0; j < COLUMNAS; j++)
+            {
+                suma += this->at(i, j);
+            }
+        }
+        return static_cast<double>(suma) / totalElementos;
+    }
+};
+
+int main()
+{
+    MathMatrix<3, 4> matriz;
+
+    int valor = 1;
+    for (int i = 0; i < matriz.numRows(); i++)
+    {
+        for (int j = 0; j < matriz.numCols(); j++)
+        {
+            matriz.set(i, j, valor++);
+        }
+    }
+
+    cout << "Matriz:" << endl;
+    matriz.print();
+
+    cout << "\nMáximo: " << matriz.encontrarMaximo() << endl;
+    cout << "Mínimo: " << matriz.encontrarMinimo() << endl;
+    cout << "Promedio: " << matriz.calcularPromedio() << endl;
+
+    return 0;
+}
